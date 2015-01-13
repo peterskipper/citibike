@@ -5,6 +5,7 @@ import sqlite3 as lite
 from populate_db import populate_db
 import os
 
+
 def analyze_bike_data():
     """ Use downloaded data to find busiest station """
     # Connect to Database
@@ -48,4 +49,3 @@ if __name__ == '__main__':
     if not os.path.isfile('citi-bike.db'):
         populate_db()
     analyze_bike_data()
-

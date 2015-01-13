@@ -6,6 +6,7 @@ import time
 import dateutil.parser as du
 import collections
 
+
 def populate_db(db_name='citi-bike.db'):
     """ Create db and add values """
 
@@ -20,9 +21,9 @@ def populate_db(db_name='citi-bike.db'):
     with conn:
         curs.execute('DROP TABLE if exists citibike_reference;')
         curs.execute('CREATE TABLE citibike_reference (id INT PRIMARY KEY, '
-                     'totalDocks INT, city TEXT, altitude INT, stAddress2 TEXT, '
-                     'longitude NUMERIC, postalCode TEXT, testStation TEXT, '
-                     'stAddress1 TEXT, stationName TEXT, landMark TEXT, '
+                     'totalDocks INT, city TEXT, altitude INT, stAddress2 '
+                     'TEXT, longitude NUMERIC, postalCode TEXT, testStation '
+                     'TEXT, stAddress1 TEXT, stationName TEXT, landMark TEXT, '
                      'latitude NUMERIC, location TEXT )')
 
     # Add reference data
@@ -33,11 +34,16 @@ def populate_db(db_name='citi-bike.db'):
     with conn:
         for station in ref.json()['stationBeanList']:
             curs.execute(refsql, (station['id'], station['totalDocks'],
-                                  station['city'], station['altitude'],
-                                  station['stAddress2'], station['longitude'],
-                                  station['postalCode'], station['testStation'],
-                                  station['stAddress1'], station['stationName'],
-                                  station['landMark'], station['latitude'],
+                                  station['city'],
+                                  station['altitude'],
+                                  station['stAddress2'],
+                                  station['longitude'],
+                                  station['postalCode'],
+                                  station['testStation'],
+                                  station['stAddress1'],
+                                  station['stationName'],
+                                  station['landMark'],
+                                  station['latitude'],
                                   station['location']))
 
     # Create available bike table
@@ -60,8 +66,8 @@ def populate_db(db_name='citi-bike.db'):
                          'VALUES (?)', (exec_time.strftime('%s'),))
         with conn:
             for key, val in id_bikes.iteritems():
-                curs.execute('UPDATE available_bikes SET _' + str(key) + ' = ' +
-                             str(val) + ' WHERE execution_time = ' +
+                curs.execute('UPDATE available_bikes SET _' + str(key) +
+                             ' = ' + str(val) + ' WHERE execution_time = ' +
                              exec_time.strftime('%s') + ';')
         time.sleep(60)
         print "Completed rep " + str(rep)
